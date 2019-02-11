@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+{% include "people/includes/head.html" %}
+  <body class="sans-serif vh-100 bg-near-white">
+    <!-- I feel like we could use horizontal scrolling to show new, frequent, other categories (rather than having different views for them)
+    <div class="pa4 fixed w-100">
+      <div class="ba b--silver dark-gray br-pill f2 tc  w-100">
+        <i data-feather="star" class="svg-icon icon-med h2 pa3 relative left-0"></i>
+        <span class="mt4">2 new Parakeets this week!</span>
+      </div>
+    </div>
+    -->
+<div class="flex">
+
+  <!--- - - - -
+  - SIDEBAR -
+  - - - - -
+
+  <div class="dn db-ns w-25 pa3 bg-black-25 br b--black-10  h-100">
+    <div class="b f-subheadline f3-ns">Kinship</div>
+
+  </div>
+-->
+
+
+
+<div class="w-100-ns flex flex-wrap">
+
+  <!-- - - - - - -
+  - HEADER NAV -
+  - - - - - - -->
+
+{% include "people/includes/nav_desktop.html" %}
+{% include "people/includes/nav_mobile.html" %}
+
+      <!-- - - - - - - -
+      - CONTENT WELL -
+      - - - - - - -->
+
+<div class="bg-white bt b--blue-gray w-100 ph3-ns">
+      <div class="fw3 mb6 pt4 w-100 mw9 center">
+
+	<!-- - - - - - - - - -  
+	  - FILTERS -
+	  - - - - - - - - - 
+
+	<div class="w-100">
+	<div class="k--group f1  w-100 w-40-ns">
+	  <div class="k--button k--button-large w-third">Recently Joined</div>
+	  <div class="k--button k--button-large w-third">All</div>
+	</div>
+	</div>
+	-->
+
+      <div id="people" class="w-100 flex flex-wrap">
+      {% for teammate in teammates_page %}
+        {% include "people/includes/employee_card.html" with teammate=teammate %}
+      {% endfor %}
+      </div>
+
+      {% if team_results %}
+      <div class="pl3">
+        <div class="pv1">Maybe you're looking for one of these team pages:</div>
+        {% for team in team_results|dictsort:"name" %}
+        <a href="{{ team.get_absolute_url }}" class="blue no-underline">{{ team.name }}</a>{% if not forloop.last %};{% endif%}
+        {% endfor %}
+      </div>
+      {% endif %}
+<div class="flex justify-around mt4">
+<div class="w-100 tc">
+
+      {% if not teammates_page.has_previous %}
+	<a class="k--button" disabled>
+		<i data-feather="chevron-left" class="svg-icon"></i>
+	</a>
+     {% else %}
+	<a href="?page={{ teammates_page.previous_page_number }}&name_search={{ name_search}}" class="k--button">
+		<i data-feather="chevron-left" class="svg-icon"></i>
+	</a>
+     {% endif %}
+
+<div class="k--group f1 mh3">
+{% if teammates_page.paginator.num_pages == 1 %}
+	  <a href="?page=1&name_search={{ name_search}}" class="k--button k--button-large {% if teammates_page.number == 1 %}k--active{% endif %}">1</a>
+{% elif teammates_page.paginator.num_pages == 2 %}
+	  <a href="?page=1&name_search={{ name_search}}" class="k--button k--button-large {% if teammates_page.number == 1 %}k--active{% endif %}">1</a>
+	  <a href="?page=2&name_search={{ name_search}}" class="k--button k--button-large {% if teammates_page.number == 2 %}k--active{% endif %}">2</a>
+{% elif teammates_page.paginator.num_pages == 3 %}
+	  <a href="?page=1&name_search={{ name_search}}" class="k--button k--button-large {% if teammates_page.number == 1 %}k--active{% endif %}">1</a>
+	  <a href="?page=2&name_search={{ name_search}}" class="k--button k--button-large {% if teammates_page.number == 2 %}k--active{% endif %}">2</a>
+	  <a href="?page=3&name_search={{ name_search}}" class="k--button k--button-large {% if teammates_page.number == 3 %}k--active{% endif %}">3</a>
+{% elif teammates_page.paginator.num_pages == 4 %}
+	  <a href="?page=1&name_search={{ name_search}}" class="k--button k--button-large {% if teammates_page.number == 1 %}k--active{% endif %}">1</a>
+	  <a href="?page=2&name_search={{ name_search}}" class="k--button k--button-large {% if teammates_page.number == 2 %}k--active{% endif %}">2</a>
+	  <a href="?page=3&name_search={{ name_search}}" class="k--button k--button-large {% if teammates_page.number == 3 %}k--active{% endif %}">3</a>
+	  <a href="?page=4&name_search={{ name_search}}" class="k--button k--button-large {% if teammates_page.number == 4 %}k--active{% endif %}">4</a>
+{% else %}
+
+      {% if teammates_page.number < 5 %}
+	  <a href="?page=1&name_search={{ name_search}}" class="k--button k--button-large {% if teammates_page.number == 1 %}k--active{% endif %}">1</a>
+	  <a href="?page=2&name_search={{ name_search}}" class="k--button k--button-large {% if teammates_page.number == 2 %}k--active{% endif %}">2</a>
+	  <a href="?page=3&name_search={{ name_search}}" class="k--button k--button-large {% if teammates_page.number == 3 %}k--active{% endif %}">3</a>
+	  <a href="?page=4&name_search={{ name_search}}" class="k--button k--button-large {% if teammates_page.number == 4 %}k--active{% endif %}">4</a>
+	  <a href="?page=5&name_search={{ name_search}}" class="k--button k--button-large {% if teammates_page.number == 5 %}k--active{% endif %}">5</a>
+	  <a href="?page=6&name_search={{ name_search}}" class="k--button k--button-large">...</a>
+	  <a href="?page={{ teammates_page.paginator.num_pages }}&name_search={{ name_search}}" class="k--button k--button-large">{{ teammates_page.paginator.num_pages }}</a>
+      {% elif teammates_page.number > teammates_page.paginator.num_pages|add:"-5" %}
+	  <a href="?page=1&name_search={{ name_search}}" class="k--button k--button-large">1</a>
+	  <a href="?page={{ teammates_page.number|add:"-5" }}&name_search={{ name_search}}" class="k--button k--button-large">...</a>
+	  <a href="?page={{ teammates_page.paginator.num_pages|add:"-3" }}&name_search={{ name_search}}" class="k--button k--button-large {% if teammates_page.number == teammates_page.paginator.num_pages|add:"-3" %}k--active{% endif %}">{{ teammates_page.paginator.num_pages|add:"-3" }}</a>
+	  <a href="?page={{ teammates_page.paginator.num_pages|add:"-2" }}&name_search={{ name_search}}" class="k--button k--button-large {% if teammates_page.number == teammates_page.paginator.num_pages|add:"-2" %}k--active{% endif %}">{{ teammates_page.paginator.num_pages|add:"-2" }}</a>
+	  <a href="?page={{ teammates_page.paginator.num_pages|add:"-1" }}&name_search={{ name_search}}" class="k--button k--button-large {% if teammates_page.number == teammates_page.paginator.num_pages|add:"-1" %}k--active{% endif %}">{{ teammates_page.paginator.num_pages|add:"-1" }}</a>
+	  <a href="?page={{ teammates_page.paginator.num_pages }}&name_search={{ name_search}}" class="k--button k--button-large {% if teammates_page.number == teammates_page.paginator.num_pages %}k--active{% endif %}">{{ teammates_page.paginator.num_pages }}</a>
+      {% else %}
+	  <a href="?page=1&name_search={{ name_search}}" class="k--button k--button-large">1</a>
+	  <a href="?page={{ teammates_page.number|add:"-5" }}&name_search={{ name_search}}" class="k--button k--button-large">...</a>
+	  <a href="?page={{ teammates_page.number|add:"-1" }}&name_search={{ name_search}}" class="k--button k--button-large">{{ teammates_page.number|add:"-1" }}</a>
+	  <a href="?page={{ teammates_page.number}}&name_search={{ name_search}}" class="k--button k--button-large k--active">{{ teammates_page.number }}</a>
+	  <a href="?page={{ teammates_page.number|add:"1" }}&name_search={{ name_search}}" class="k--button k--button-large">{{ teammates_page.number|add:"1" }}</a>
+	  <a href="?page={{ teammates_page.number|add:"5" }}&name_search={{ name_search}}" class="k--button k--button-large">...</a>
+	  <a href="?page={{ teammates_page.paginator.num_pages }}&name_search={{ name_search}}" class="k--button k--button-large">{{ teammates_page.paginator.num_pages }}</a>
+      {% endif %}
+{% endif %}
+
+            </div>
+{% if not teammates_page.has_next %}
+	<a class="k--button" disabled>
+		<i data-feather="chevron-right" class="svg-icon"></i>
+	</a>
+     {% else %}
+	<a href="?page={{ teammates_page.next_page_number }}&name_search={{ name_search}}" class="k--button">
+		<i data-feather="chevron-right" class="svg-icon"></i>
+	</a>
+     {% endif %}
+
+
+    </div>
+    </div>
+    </div>
+  </div>
+  </div>
+
+    <script>
+      feather.replace()
+    </script>
+  </body>
+</html>

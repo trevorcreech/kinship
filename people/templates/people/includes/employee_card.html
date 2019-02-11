@@ -1,0 +1,14 @@
+<a href="{{ teammate.get_absolute_url }}" class="mb4 ph3-ns no-underline w-100 w-25-ns bg-animate">
+<div class="teammate br3 flex items-center flex-wrap-ns bg-white">
+  <div class="w-60 ph1 f1 pl3-ns">
+    <div class="mt1-ns mb2-ns">
+      <div class="f5-ns mv2 mb1-ns dark-gray">{{ teammate.name }}</div>
+      <div class="f6-ns mv2 mt2 gray">{{ teammate.title }}</div>
+      <div class="f7-ns mv2 mt2 silver">{{ teammate.location}}</div>
+    </div>
+  </div>
+  <img 
+    {% if teammate.image %} src="{{ teammate.image }}" {% else %} src="https://ui-avatars.com/api/?name={{ teammate.name }}&size=900"{% endif %}
+    class="br4 br3-ns br--right-ns w-40" alt="avatar" />
+</div>
+</a>

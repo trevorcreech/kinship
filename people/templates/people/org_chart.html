@@ -1,0 +1,57 @@
+{% extends "people/employee.html" %}
+{% block extra_styles %}
+<style>
+  .orgchart {
+    background: #fff;
+}
+</style>
+{% endblock extra_styles %}
+
+{% block main_content %}
+{% include "people/includes/employee_subnav.html" with selected_tab="org" %}
+<div class="mw7-ns center">
+  <div class="mb4">
+    <div class="mt3 mb4 silver f2 f6-ns">
+      Try hovering over some names to see green arrows that let you navigate around the org chart.
+    </div>
+    <div id="chart-container"></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/orgchart/2.1.3/js/jquery.orgchart.min.js"></script>
+
+<script type="text/javascript">
+  $(function () {
+    var ajaxURLs = {
+      children: function (node) {
+        return "/people/" + node.id + "/children.json";
+      },
+      parent: function (node) {
+        return "/people/" + node.id + "/parent.json";
+      },
+      siblings: function (node) {
+        return "/people/" + node.id + "/sibs.json";
+      },
+      families: function (node) {
+        return (
+          "/people/" + node.id + "/family.json?target_mgr=1&exclude_me=1"
+        );
+      }
+    };
+    var oc = $("#chart-container").orgchart({
+      data: "family.json?target_mgr=1",
+      ajaxURL: ajaxURLs,
+      nodeContent: "title",
+      direction: "l2r",
+      toggleSiblingsResp: true,
+      createNode: function ($node, data) {
+        $node.children(".title").wrapInner('<a href="/people/' + data.id + '" class="white no-underline"></a>');
+      }
+    });
+    oc.$chartContainer.on("touchmove", function (event) {
+      event.preventDefault();
+    });
+  });
+</script>
+{% endblock main_content %}

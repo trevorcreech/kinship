@@ -1,0 +1,150 @@
+{% load people_extras %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+{% include "people/includes/head.html" %}
+{% block extra_styles %}{% endblock extra_styles %}
+
+<body class="sans-serif bg-white">
+  {% include "people/includes/nav_desktop.html" %}
+  <div class="flex mw9 center pa3">
+    <div class="w6">
+      <div class="br3-ns shadow-2">
+        <div class="br3-ns ba b--dark-blue-gray h-inherit bg-white">
+          {% if teammate.image %}
+          <img src="{{ teammate.image }}" class="w-100 br3-ns br--top-ns" alt="avatar" />
+          {% else %}
+          <img src="https://ui-avatars.com/api/?name={{ teammate.name }}&size=900" class="w-100 br3-ns br--top-ns" alt="avatar" />
+          {% endif %}
+          <div class="pt4 pb5 ph5 pb4 ph4-ns pt3-ns pb4-ns relative">
+
+            <div class="absolute" style="top: -2.25rem; right: 1rem">
+              <div id="is-checking" class="k--badge bg-gray truncate dn">
+                <i data-feather="calendar" class="white svg-icon w3 h3 w1-ns h1-ns mr1"></i> Checking calendar...
+              </div>
+              <div id="is-free" class="k--badge bg-green truncate dn">
+                <i data-feather="check-circle" class="white svg-icon w3 h3 w1-ns h1-ns mr1"></i> Available now
+              </div>
+              <div id="is-busy" class="k--badge bg-red f5-ns truncate dn">
+                <i data-feather="x-circle" class="svg-icon w3 h3 w1-ns h1-ns mr1"></i> In a meeting
+              </div>
+            </div>
+            <div class="f1 f2-ns fw2">{{ teammate.name }}</div>
+            <div class="f1 lh-title mt1 f5-ns mt2">
+              <div class="light-purple">
+                {{ teammate.title|default:"Unknown Title" }}
+              </div>
+              <div class="purple">
+                {% if teammate.main_team %}
+                <a class="purple no-underline" href="{{ teammate.main_team.get_absolute_url }}">{{ teammate.main_team.name }} Team</a>
+                {% else %}
+                {{ teammate.team_name|default:"Unknown Team" }}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <div class="k--group k--group-bottom f1  w-100">
+            <a href="slack://user?team=T02835DET&id={{ teammate.slack_uid }}" class="k--button w-third-plus-ns br3-ns">
+              <i data-feather="slack" class="pr1 svg-icon"></i>
+              Message
+            </a>
+            <a href="mailto:{{ teammate.slack_email }}" class="k--button w-third-ns bb-0">
+              <i data-feather="mail" class="pr1 svg-icon"></i>
+              Email
+            </a>
+            <a href="tel:{{ teammate.phone }}" class="k--button w-third-ns br3-ns">
+              <i data-feather="phone" class="pr1 svg-icon"></i>
+              Call
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="">
+        <div class="pt4 pb5 ph5 pb4 ph2-ns pt3-ns pb4-ns">
+          <div class="mt4 mt3-ns mb2-ns flex flex-wrap">
+            {% if teammate.location %}
+            <div class="w-40-ns tr-ns pr4 f2 f5-ns lh-title mt4 mt2-ns mb1 mb0-ns silver">
+              Location
+            </div>
+            <div class="w-60-ns f1 lh-title f5-ns truncate blue mt2-ns">
+	            <a href="#" class="k--badge no-underline">{{ teammate.location }}</a>
+            </div>
+            {% endif %}
+            <div class="w-40-ns tr-ns pr4 f2 f5-ns lh-title mt4 mt2-ns mb1 mb0-ns silver">
+              Joined
+            </div>
+            <div class="w-60-ns f1 lh-title f5-ns truncate mt2-ns">
+              {{ teammate.start_date }}
+            </div>
+            <div class="w-40-ns tr-ns pr4 f2 f5-ns lh-title mt4 mt2-ns mb1 mb0-ns silver">
+              Birthday
+            </div>
+            <div class="w-60-ns f1 lh-title f5-ns truncate mt2-ns">
+              {{ teammate.bday|date:"N j" }}
+            </div>
+            <div class="w-40-ns tr-ns pr4 f2 f5-ns lh-title mt4 mb1 mb0-ns silver mt2-ns">
+              Manager
+            </div>
+            <div class="w-60-ns f1 lh-title f5-ns truncate mt2-ns">
+              {% if teammate.manager %}
+              <a href="{{ teammate.manager.get_absolute_url }}" class="k--badge no-underline">{{ teammate.manager.name }}</a>
+              {% else %}
+              {{ teammate.manager_name }}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-80 ml-16">
+      <div class="f1 f5-ns ph5 mt5 mt0-ns pb5 p w-100-ns bg-white">
+        {% block main_content %}
+        {% include "people/includes/employee_subnav.html" with selected_tab="props" %}
+        <div class="mw7-ns center">
+          <div class="mb4">
+            <div class="mt3 mb4 silver f2 f6-ns">
+              Mention @{{ teammate.slack_display_name }} in the #props Slack channel to give them props!
+            </div>
+            {% for props in teammate.props_gotten.all %}
+            <div class="mb5 mb4-ns">
+              <div class="dark-gray">
+                “{{ props.text|highlight:teammate.name }}”
+                <div>&mdash; <a href="{{ props.teammate_from.get_absolute_url }}" class="blue no-underline">{{ props.teammate_from.name }}</a></div>
+              </div>
+              <div class="silver w-20 f2 nowrap mt2-ns f6-ns">{{ props.sent_on }}</div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endblock main_content %}
+      </div>
+    </div>
+
+    <script>
+      feather.replace();
+
+      const is_checking_el = document.getElementById('is-checking');
+      const is_free_el = document.getElementById('is-free');
+      const is_busy_el = document.getElementById('is-busy');
+
+      {% if preferences.PeoplePreferences.enable_google %}
+      is_checking_el.style.display = "inline-block";
+
+      fetch("/people/{{ teammate.slack_uid }}/is_free")
+        .then((resp) => resp.json())
+        .then(function (data) {
+          is_checking_el.style.display = "none";
+          if (data.is_free) {
+            is_free_el.style.display = "inline-block";
+          }
+          else {
+            is_busy_el.style.display = "inline-block";
+          }
+        })
+      {% endif %}
+    </script>
+</body>
+
+</html>

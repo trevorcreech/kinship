@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+{% include "people/includes/head.html" %}
+<!-- TODO : Add team_color variable so the .bg-near-white below can be dynamic -->
+
+<body class="sans-serif vh-100 bg-white">
+  <div class="flex">
+    <div class="w-100-ns flex flex-wrap bg-light-blue">
+      {% include "people/includes/nav_desktop.html" %}
+      {% include "people/includes/nav_mobile.html" %}
+
+      <!-- - - - - - - -
+      - CONTENT WELL -
+      - - - - - - -->
+
+      <div class="mw9 center flex w-100 pt5 pb5 ph3-ns">
+        <div class="w-third tc mr3 mt5">
+          <div class="f1 fw2 mb3">{{ team.name }}</div>
+
+          <div class="mb3">{{ team.purpose }}</div>
+          <div class="pt4 f6 ttu tracked bold  fw6 tc o-40">A part of</div>
+
+          <div class="w-100-ns f1 lh-title f5-ns truncate mt2-ns">
+            <a href="{{ team.parent.get_absolute_url }}" class="k--badge-blue no-underline">{{ team.parent|default:"Opendoor" }}</a>
+          </div>
+
+          {% if team.subteams.all|length != 0 %}
+          <div class="pt3 f6 ttu tracked bold  fw6 tc o-40">Subteams</div>
+          <div class="w-100-ns f1 lh-title f5-ns mt2-ns">
+            {% for team in team.subteams.all %}
+            <a href="{{ team.get_absolute_url }}" class="k--badge-blue no-underline">{{ team.name }}</a>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="w-third mh3 pa3 white bg-blue br3 shadow-2">
+          <div class="pv2 f4 fw4 tc">Team Info</div>
+
+          <div class="">
+            <div class="pt4 h5 ph5 ph2-ns pv3-ns">
+              <div class="mb2-ns flex flex-wrap">
+                {% for meta in team.metadata.all %}
+                <div class="w-50-ns tr-ns pr4 f2 f5-ns lh-title mt4 mt2-ns mb1 mb0-ns lightest-blue">
+                  {{ meta.label }}
+                </div>
+                <div class="w-50-ns f1 lh-title f5-ns truncate mt2-ns">
+                  <span class="k--badge-blue">
+                    {% if meta.url %}
+                    <a href="{{ meta.url }}" class="no-underline white">{{ meta.value }}</a>
+                    {% else %}
+                    {{ meta.value }}
+                    {% endif %}
+                   </span>
+                </div>
+                {% empty %}
+                <p class="w-100 tc near-white pt4">If you're a member of this team, fill this out!</p>
+                {% endfor %}
+              </div>
+            </div>
+
+            <!-- TODO: Disabled until you can really ask a question
+            <div class="k--button k--button-primary w-100 mt4">
+              Ask a Question
+            </div>-->
+          </div>
+        </div>
+
+
+        <div class="w-third ml3 pa3 black-blue-gray bg-lightest-blue br3 shadow-2">
+          <div class="pv2 f4 fw4 tc">Resources</div>
+          <div class="h5 w-100-ns f1 lh-title f5-ns truncate pv3-ns ph2">
+          {% if team.name == 'Engineering' %}
+            <a href="#link" class="link dark-bopue-gray mt3-ns db">
+              <i data-feather="link" class="svg-icon w3 h3 w1-ns h1-ns mr2"></i>
+              Team meeting notes
+
+              <i data-feather="chevron-right" class="svg-icon w3 h3 w1-ns h1-ns ml1"></i>
+            </a>
+            <a href="#link" class="link dark-bopue-gray mt3-ns db">
+              <i data-feather="link" class="svg-icon w3 h3 w1-ns h1-ns mr2"></i>
+              Open recruiting reqs
+              <i data-feather="chevron-right" class="svg-icon w3 h3 w1-ns h1-ns ml1"></i>
+            </a>
+            <!-- TODO: Disabled until resources are enabled
+            <a href="#link" class="link dark-bopue-gray mt3-ns db">
+              <i data-feather="link" class="svg-icon w3 h3 w1-ns h1-ns mr2"></i>
+              A link with a longer name
+
+              <i data-feather="chevron-right" class="svg-icon w3 h3 w1-ns h1-ns ml1"></i>
+            </a>
+            <a href="#link" class="link dark-bopue-gray mt3-ns db">
+              <i data-feather="file" class="svg-icon w3 h3 w1-ns h1-ns mr2"></i>
+              A frequently searched for asset
+
+              <i data-feather="chevron-right" class="svg-icon w3 h3 w1-ns h1-ns ml1"></i>
+            </a>
+            <a href="#link" class="link dark-bopue-gray mt3-ns db">
+              <i data-feather="file" class="svg-icon w3 h3 w1-ns h1-ns mr2"></i>
+              A frequently searched for asset
+
+              <i data-feather="chevron-right" class="svg-icon w3 h3 w1-ns h1-ns ml1"></i>
+            </a>
+            <a href="#link" class="link dark-bopue-gray mt3-ns db">
+              <i data-feather="file" class="svg-icon w3 h3 w1-ns h1-ns mr2"></i>
+              A frequently searched for asset
+
+              <i data-feather="chevron-right" class="svg-icon w3 h3 w1-ns h1-ns ml1"></i>
+            </a>
+          -->
+          {% else %}
+          <p class="tc mid-gray pt4">Coming Soon!</p>
+          {% endif %}
+          </div>
+
+          <div class="k--button w-100 mt4">
+            See All
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white bt b--blue-gray w-100">
+    <div class="fw3 pb5 pt4 w-100 mw9 center">
+      <!-- TODO: Add padding top  -->
+      <div class="w-100 flex flex-wrap">
+      {% for teammate in team.members.all|dictsort:"name" %}
+        {% include "people/includes/employee_card.html" with teammate=teammate %}
+      {% endfor %}
+      </div>
+      {% for subteam in team.subteams.all %}
+      <div class="f2 fw2 pl3 pb3"><a href="{{ subteam.get_absolute_url }}" class="no-underline near-black">{{ subteam.name }}<i data-feather="chevron-right" class="svg-icon w3 h3 w1-ns h1-ns"></i></a></div>
+      <div class="w-100 flex flex-wrap">
+        {% for teammate in subteam.subteam_members|dictsort:"name" %}
+          {% include "people/includes/employee_card.html" with teammate=teammate %}
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  </div>
+
+  <script>
+    feather.replace()
+  </script>
+</body>
+
+</html>

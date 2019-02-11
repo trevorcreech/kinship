@@ -1,0 +1,22 @@
+<!-- commented out until we have a reason to have a tab bar
+<nav class="fixed bottom-0 tc w-100 f2 pv4 bg-white bt b--light-silver flex dn-ns">
+	<a href="/people" class="w-third blue no-underline">
+		<i data-feather="home" class="svg-icon icon-lrg pb3"></i>
+		<div class="tracked">Home</div>
+	</a>
+	<a href="search.html" class="w-third gray no-underline">
+		<i data-feather="search" class="svg-icon icon-lrg pb3"></i>
+		<div class="tracked">Search</div>
+	</a>
+	<div class="w-third gray no-underline">
+		<i data-feather="user" class="svg-icon icon-lrg pb3"></i>
+		<div class="tracked">Me</div>
+	</a>
+</nav>
+-->
+<div class="tc w-100 f2 pv4 bb b--light-silver mb4 dn-ns">
+	<form method="GET" action="/people">
+		<input name="name_search" value="{{ name_search }}" autofocus="false" type="text" class="w-80 f1 ml4 br3 pa3 bg-white ba b--silver dark-gray" placeholder="Search" />
+		<a href="/index.html" class="w-20 pa2 no-underline silver">Cancel</a>
+	</form>
+</div>

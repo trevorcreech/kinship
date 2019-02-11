@@ -1,0 +1,22 @@
+{% load mptt_tags %}
+<html>
+{% include "people/includes/head.html" %}
+<body class="sans-serif vh-100 bg-white">
+
+      {% include "people/includes/nav_desktop.html" %}
+      {% include "people/includes/nav_mobile.html" %}
+<ul class="root list mw9 center ph0">
+    {% recursetree teams %}
+        <li class="pv2">
+            <a href="{{ node.get_absolute_url }}">{{ node.name }}</a>
+              {{ node.purpose }}
+            {% if not node.is_leaf_node %}
+                <ul class="children list">
+                    {{ children }}
+                </ul>
+            {% endif %}
+        </li>
+    {% endrecursetree %}
+</ul>
+</body>
+</html>

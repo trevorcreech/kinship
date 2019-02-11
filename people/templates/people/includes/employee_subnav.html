@@ -1,0 +1,13 @@
+{% with selected_tab_css="bb b--blue bw2" tab_css="k--tab dark-gray pa3 w4 mr2 tc" %}
+<div class="mw7-ns center flex f3 fw3 bb b--blue-gray ">
+  <a href="{{ teammate.get_absolute_url }}" class="{{ tab_css }} {% if selected_tab == 'props' %}{{ selected_tab_css }}{% endif %}">
+    Props
+  </a>
+  <a href="{{ teammate.get_absolute_url }}/org" class="{{ tab_css }} {% if selected_tab == 'org' %}{{ selected_tab_css }}{% endif %}">
+    Org
+  </a>
+  <a href="{{ teammate.get_absolute_url }}/okrs" class="{{ tab_css }} {% if selected_tab == 'okrs' %}{{ selected_tab_css }}{% endif %}">
+    OKRs
+  </a>
+</div>
+{% endwith %}
