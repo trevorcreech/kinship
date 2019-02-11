@@ -22,7 +22,13 @@ VERSION = None
 
 # What packages are required for this module to be executed?
 REQUIRED = [
-    # 'requests', 'maya', 'records',
+    "bleach",
+    "django-mptt",
+    "django-preferences",
+    "google-api-python-client",
+    "requests",
+    "slackclient",
+    "social-auth-app-django",
 ]
 
 # What packages are optional?
