@@ -1,1 +1,3 @@
 include README.md
+recursive-include people/static *
+recursive-include people/templates *
