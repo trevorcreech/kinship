@@ -66,7 +66,12 @@ class Slack:
             if not tm.is_hidden and not tm.user and tm.slack_uid in existing_users:
                 tm.user = existing_users[tm.slack_uid]
 
-            tm.save()
+            try:
+                tm.save()
+            except Exception as ex:
+                # make sure a single teammate failing to save doesn't cause the script to fail
+                print(f"Failed to save {tm}")
+                print(f"> {ex}\n"
 
         disappeared_users = Teammate.objects.exclude(
             slack_uid__in=returned_uids
