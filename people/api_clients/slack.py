@@ -71,7 +71,7 @@ class Slack:
             except Exception as ex:
                 # make sure a single teammate failing to save doesn't cause the script to fail
                 print(f"Failed to save {tm}")
-                print(f"> {ex}\n"
+                print(f"> {ex}\n")
 
         disappeared_users = Teammate.objects.exclude(
             slack_uid__in=returned_uids
