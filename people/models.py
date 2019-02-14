@@ -1,6 +1,7 @@
 import datetime
 from django.contrib.auth.signals import user_logged_in
 from django.db import models
+from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
 from preferences.models import Preferences
 from social_django.models import UserSocialAuth
@@ -43,7 +44,7 @@ class Teammate(MPTTModel):
         return self.name
 
     def get_absolute_url(self):
-        return f"/people/{self.slack_uid}"
+        return reverse("teammate-detail", args=(self.slack_uid,))
 
     @property
     def bday(self):

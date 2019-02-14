@@ -1,11 +1,11 @@
 <div class="dn w-100-ns flex-ns items-center pv3-ns ph3-ns z100">
 <div class="mw9 center w-100 items-center flex ph3-ns">
 <div class="w-70 flex items-center">
-    <a href="/people/" class="b f-subheadline f3-ns black no-underline">Homies</a>
+    <a href="{% url 'people-index' %}" class="b f-subheadline f3-ns black no-underline">Homies</a>
 
 <nav class="mh4">
-<a href="/people/" class="no-underline header-link hover-dark-gray mr4">People</a>
-<a href="/people/teams" class="no-underline header-link hover-dark-gray mr4">Teams</a>
+<a href="{% url 'people-index' %}" class="no-underline header-link hover-dark-gray mr4">People</a>
+<a href="{% url 'team-list' %}" class="no-underline header-link hover-dark-gray mr4">Teams</a>
 <!-- TODO: uncomment when more exist
 <a href="" class="no-underline header-link hover-dark-gray mr4">Offices</a>
 <a href="" class="no-underline header-link hover-dark-gray mr4">Calendars</a>
@@ -16,7 +16,7 @@
 </div>
 <div class="w-30 fr">
 <div class="fr w-100">
-    <form class="relative w-100 shadow-1 br3" style="height:3rem" method="GET" action="/people/">
+    <form class="relative w-100 shadow-1 br3" style="height:3rem" method="GET" action="{% url 'people-index' %}">
       <i data-feather="search" class="feather feather-search gray absolute ph3 h-100" style="width:1.4em;padding: 0 .75em;"></i>
       <input type="text" name="name_search" class="w-100 dn db-ns f4 fw3 pl4 pv2 br3 ba b--dark-blue-gray h-100 dark-gray" style="padding-left:2.25em" placeholder='Search (e.g. "reno pm phoenix")' value="{{ name_search }}" autofocus="true"></input>
     </form>
