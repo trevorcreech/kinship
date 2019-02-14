@@ -89,7 +89,11 @@ class Workday:
             except (IndexError, KeyError):
                 pass
 
-            tm.save()
+            try:
+                tm.save()
+            except mptt.exceptions.InvalidMove as ex:
+                print(f"Failed to save {tm.name}'s manager, {tm.manager.name}")
+                print(f"> {ex}\n")
 
             # set teams
             if (
