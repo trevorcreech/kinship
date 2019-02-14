@@ -32,20 +32,20 @@
             <div class="f1 f2-ns fw2">{{ teammate.name }}</div>
             <div class="f1 lh-title mt1 f5-ns mt2">
               <div class="light-purple">
-                {{ teammate.title|default:"Unknown Title" }}
+                {{ teammate.title }}
               </div>
               <div class="purple">
                 {% if teammate.main_team %}
                 <a class="purple no-underline" href="{{ teammate.main_team.get_absolute_url }}">{{ teammate.main_team.name }} Team</a>
                 {% else %}
-                {{ teammate.team_name|default:"Unknown Team" }}
+                {{ teammate.team_name }}
                 {% endif %}
               </div>
             </div>
           </div>
 
           <div class="k--group k--group-bottom f1  w-100">
-            <a href="slack://user?team=T02835DET&id={{ teammate.slack_uid }}" class="k--button w-third-plus-ns br3-ns">
+            <a href="slack://user?team={{ slack_team_id }}&id={{ teammate.slack_uid }}" class="k--button w-third-plus-ns br3-ns">
               <i data-feather="slack" class="pr1 svg-icon"></i>
               Message
             </a>
@@ -72,18 +72,23 @@
 	            <a href="#" class="k--badge no-underline">{{ teammate.location }}</a>
             </div>
             {% endif %}
+            {% if teammate.start_date %}
             <div class="w-40-ns tr-ns pr4 f2 f5-ns lh-title mt4 mt2-ns mb1 mb0-ns silver">
               Joined
             </div>
             <div class="w-60-ns f1 lh-title f5-ns truncate mt2-ns">
               {{ teammate.start_date }}
             </div>
+            {% endif %}
+            {% if teammate.bday %}
             <div class="w-40-ns tr-ns pr4 f2 f5-ns lh-title mt4 mt2-ns mb1 mb0-ns silver">
               Birthday
             </div>
             <div class="w-60-ns f1 lh-title f5-ns truncate mt2-ns">
               {{ teammate.bday|date:"N j" }}
             </div>
+            {% endif %}
+            {% if teammate.manager or teammate.manager_name %}
             <div class="w-40-ns tr-ns pr4 f2 f5-ns lh-title mt4 mb1 mb0-ns silver mt2-ns">
               Manager
             </div>
@@ -94,6 +99,7 @@
               {{ teammate.manager_name }}
               {% endif %}
             </div>
+            {% endif %}
           </div>
         </div>
       </div>

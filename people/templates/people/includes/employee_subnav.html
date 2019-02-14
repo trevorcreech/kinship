@@ -3,11 +3,15 @@
   <a href="{{ teammate.get_absolute_url }}" class="{{ tab_css }} {% if selected_tab == 'props' %}{{ selected_tab_css }}{% endif %}">
     Props
   </a>
+  {% if teammate.manager %}
   <a href="{{ teammate.get_absolute_url }}/org" class="{{ tab_css }} {% if selected_tab == 'org' %}{{ selected_tab_css }}{% endif %}">
     Org
   </a>
+  {% endif %}
+  {% if teammate.okrs or request.user == teammate.user %}
   <a href="{{ teammate.get_absolute_url }}/okrs" class="{{ tab_css }} {% if selected_tab == 'okrs' %}{{ selected_tab_css }}{% endif %}">
     OKRs
   </a>
+  {% endif %}
 </div>
 {% endwith %}

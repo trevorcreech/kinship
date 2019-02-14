@@ -54,7 +54,11 @@ def person(request, slack_uid, template="people/employee.html", context={}):
         ),
         slack_uid=slack_uid,
     )
-    return render(request, template, {**{"teammate": teammate}, **context})
+    return render(
+        request,
+        template,
+        {**{"teammate": teammate, "slack_team_id": settings.SLACK_TEAM_ID}, **context},
+    )
 
 
 @login_required
