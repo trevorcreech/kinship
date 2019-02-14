@@ -158,6 +158,7 @@ def _render_node(node, has_sibs):
         # all root nodes are considered siblings of each other, so we have to special case Eric,
         # who is supposed to be the only root node in this org
         sibs = "0"
+        parent = "0"
 
     return {
         "id": node.slack_uid,
