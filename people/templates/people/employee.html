@@ -111,7 +111,7 @@
         <div class="mw7-ns center">
           <div class="mb4">
             <div class="mt3 mb4 silver f2 f6-ns">
-              Mention @{{ teammate.slack_display_name }} in the #props Slack channel to give them props!
+              {% block props_blurb %}Mention @{{ teammate.slack_display_name }} in the #props Slack channel to give them props!{% endblock %}
             </div>
             {% for props in teammate.props_gotten.all %}
             <div class="mb5 mb4-ns">
