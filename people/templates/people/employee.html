@@ -80,6 +80,14 @@
               {{ teammate.start_date }}
             </div>
             {% endif %}
+            {% if teammate.tenure %}
+            <div class="w-40-ns tr-ns pr4 f2 f5-ns lh-title mt4 mt2-ns mb1 mb0-ns silver">
+              DIP
+            </div>
+            <div class="w-60-ns f1 lh-title f5-ns truncate mt2-ns">
+              {{ teammate.tenure.days }} days (top {{teammate.tenure_percentile | percentage:0}})
+            </div>
+            {% endif %}
             {% if teammate.bday %}
             <div class="w-40-ns tr-ns pr4 f2 f5-ns lh-title mt4 mt2-ns mb1 mb0-ns silver">
               Birthday

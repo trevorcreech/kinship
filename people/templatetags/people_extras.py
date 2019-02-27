@@ -14,3 +14,7 @@ def highlight(value, search_term, autoescape=True, prepend_at_sign=True):
     return mark_safe(
         value.replace(search_term, "<span class='black fw5'>%s</span>" % search_term)
     )
+
+@register.filter
+def percentage(value, decimals=2):
+    return '{:.{prec}%}'.format(value, prec=decimals)

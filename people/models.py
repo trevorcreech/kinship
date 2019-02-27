@@ -53,6 +53,23 @@ class Teammate(MPTTModel):
         return datetime.date(month=self.bday_month, day=self.bday_day, year=1)
 
     @property
+    def tenure(self):
+        if not self.start_date:
+            return None
+
+        return datetime.date.today() - self.start_date
+
+    @property
+    def tenure_percentile(self):
+        if not self.start_date:
+            return None
+
+        active_teammates = Teammate.objects.filter(is_hidden=False, start_date__isnull=False)
+        more_tenured_teammates = active_teammates.filter(start_date__lt=self.start_date)
+
+        return more_tenured_teammates.count() / active_teammates.count()
+
+    @property
     def main_team(self):
         try:
             return Team.objects.get(name=self.team_name)
