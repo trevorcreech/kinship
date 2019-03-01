@@ -49,6 +49,9 @@ class Command(BaseCommand):
             if msg["ts"] in existing_props_ts:  # we've already saved this in the db
                 continue
 
+            if not self.eligible(msg):
+                continue
+
             mentioned_teammates = [
                 teammates[f"<@{uid}>"]
                 for uid in re.findall(at_mention_pattern, msg["text"])
@@ -67,3 +70,13 @@ class Command(BaseCommand):
             props.save()
 
             props.teammates_to.set(mentioned_teammates)
+
+    @classmethod
+    def eligible(cls, msg):
+        return not cls.is_invite_message(msg)
+
+    @classmethod
+    def is_invite_message(cls, msg):
+        # one or more mentions separated by whitespace
+        invites_pattern = re.compile(r"^(<@(\w+)>\s*)+$")
+        return re.match(invites_pattern, msg['text'].strip()) and not msg.get('files') and not msg.get('attachments')
