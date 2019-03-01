@@ -42,7 +42,7 @@ class Command(BaseCommand):
 
         teammates = {f"<@{t.slack_uid}>": t for t in Teammate.objects.all()}
 
-        at_mention_pattern = re.compile(r"<@(.*?)>")
+        at_mention_pattern = re.compile(r"<@(\w+)>")
         tz = timezone(settings.TIME_ZONE)
 
         for msg in props_msgs:
